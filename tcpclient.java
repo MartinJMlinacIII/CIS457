@@ -5,20 +5,18 @@ public class tcpclient {
 
   public final static int SOCKET_PORT = 13267;      // you may change this
   public final static String SERVER = "127.0.0.1";  // localhost
-  public final static String
-       FILE_TO_RECEIVED = "test.jpg"; 
+  public final static String FILE_TO_RECEIVED = "test.jpg"; 
   public final static int FILE_SIZE = 602000000;
 
   public static void main (String [] args ) throws IOException {
     int bytesRead;
     int current = 0;
-    FileOutputStream fos = null;
-    BufferedOutputStream bos = null;
     Socket sock = null;
     
-
     BufferedReader inFromUser = 
-	new BufferedReader(new InputStreamReader(System.in));
+      new BufferedReader(
+          new InputStreamReader(System.in));
+          
     System.out.println("Enter an IP Address: ");
     String  serverAddress = inFromUser.readLine();
 
@@ -31,26 +29,30 @@ public class tcpclient {
 
       System.out.println("Connected! Please enter a file name: ");
       String fileName = inFromUser.readLine();
-      DataOutputStream outToServer = 
-	  new DataOutputStream(sock.getOutputStream());
-      outToServer.writeBytes(fileName+'\n');
       
+      DataOutputStream outToServer = 
+        new DataOutputStream(sock.getOutputStream());
+        
+      outToServer.writeBytes(fileName+'\n');
 
       // receive file
-      byte [] mybytearray  = new byte [FILE_SIZE];
+      byte [] myByteArray  = new byte [FILE_SIZE];
       InputStream is = sock.getInputStream();
-      fos = new FileOutputStream("new"+fileName);
-      bos = new BufferedOutputStream(fos);
-      bytesRead = is.read(mybytearray,0,mybytearray.length);
+      
+      BufferedOutputStream bos = 
+        new BufferedOutputStream(
+          new FileOutputStream("new"+fileName));
+          
+      bytesRead = is.read(myByteArray, 0, myByteArray.length);
       current = bytesRead;
 
       do {
          bytesRead =
-            is.read(mybytearray, current, (mybytearray.length-current));
+            is.read(myByteArray, current, (myByteArray.length-current));
          if(bytesRead >= 0) current += bytesRead;
       } while(bytesRead > -1);
 
-      bos.write(mybytearray, 0 , current);
+      bos.write(myByteArray, 0 , current);
       bos.flush();
       System.out.println("File " + fileName
           + " downloaded (" + current + " bytes read)");
