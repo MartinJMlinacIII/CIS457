@@ -6,7 +6,7 @@ class tcpserver{
     //public final static String fileName = "thecreator.jpg";  // you may change this
 
   public static void main (String [] args ) throws IOException {
-    FileInputStream fis = null;
+  FileInputStream fis = null;
     BufferedInputStream bis = null;
     OutputStream os = null;
     ServerSocket servsock = null;
@@ -44,6 +44,11 @@ class tcpserver{
           os.flush();
           System.out.println("Done.");
         }
+
+	catch(Exception e){
+	System.out.println("File Not Found");
+	}
+
         finally {
           if (bis != null) bis.close();
           if (os != null) os.close();
